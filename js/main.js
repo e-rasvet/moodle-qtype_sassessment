@@ -97,13 +97,30 @@ function recBtn(ev) {
     recStatus[id].btn = btn;
     recStatus[id].qid = btn.getAttribute('qid');
     recStatus[id].ans = document.getElementById(btn.getAttribute('answername'));
+    recStatus[id].ansDiv = document.getElementById(btn.getAttribute('answerDiv'));
     recStatus[id].grade = document.getElementById(btn.getAttribute('gradename'));
     recStatus[id].onresult = function (e) {
-      for (var i = e.resultIndex; i < e.results.length; ++i) {
-        if (e.results[i].isFinal) {
-          this.ans.value += e.results[i][0].transcript;
+        var interim_transcript = '';
+        var final_transcript = '';
+
+        for (var i = e.resultIndex; i < e.results.length; ++i) {
+            if (e.results[i].isFinal) {
+                final_transcript += e.results[i][0].transcript;
+                this.ans.value = final_transcript;
+                this.ansDiv.innerHTML = final_transcript;
+            } else {
+                interim_transcript += e.results[i][0].transcript;
+                this.ans.value = interim_transcript;
+                this.ansDiv.innerHTML = interim_transcript;
+            }
         }
-      }
+
+        // Choose which result may be useful for you
+        /*
+        console.log("Interim: ", interim_transcript);
+        console.log("Final: ",final_transcript);
+        console.log("Simple: ", e.results[0][0].transcript);
+        */
     }
 
     recStatus[id].onend = function (e) {
@@ -135,6 +152,28 @@ function recBtn(ev) {
       recStatus[id].abort();
   }
 }
+
+
+insertAtCaret = function(txtarea,text) {
+    var scrollPos = txtarea.scrollTop;
+    var strPos = 0;
+
+    strPos = txtarea.selectionStart;
+
+    console.log(scrollPos + "|" + strPos);
+    console.log(text);
+
+    var front = (txtarea.value).substring(0,strPos);
+    var back = (txtarea.value).substring(strPos,txtarea.value.length);
+    //txtarea.value=front+text+back;
+    txtarea.value=text;
+    strPos = strPos + text.length;
+    txtarea.selectionStart = strPos;
+    txtarea.selectionEnd = strPos;
+    txtarea.focus();
+    txtarea.scrollTop = scrollPos;
+};
+
 
 window.onload = function(){
   try {

@@ -29,11 +29,8 @@ or text value or select a value from a number of options.';
 $string['pluginname_link'] = 'question/type/sassessment';
 $string['pluginnameadding'] = 'Adding a sassessment question';
 $string['pluginnameediting'] = 'Editing a sassessment question';
-$string['pluginnamesummary'] = 'A sassessment question type which allows the embedding of the response fields for various available
-sub questions in the question text.
-
-So the student can enter a numeric or short text answer or choose an answer or answer(s) from
- using a select box, check boxes or radio boxes.';
+$string['pluginnamesummary'] = 'The s-assessment question type allows students to give verbal responses to questions which can be
+automatically scored using voice recognition and speech to text.';
 
 $string['description'] = 'Description';
 $string['show_transcript'] = 'Show transcription of student speech';
@@ -49,3 +46,4 @@ $string['err_notenoughquestions'] = 'Not enough questions';
 
 $string['answer'] = 'Answer: {$a}';
 $string['grade'] = 'Grade: {$a}';
+$string['recordAudioIniosapp'] = 'Record Audio for iOS in app';
