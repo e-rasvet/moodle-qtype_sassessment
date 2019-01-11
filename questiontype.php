@@ -40,6 +40,15 @@ require_once($CFG->dirroot . '/question/type/sassessment/question.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_sassessment extends question_type {
+
+    /**
+     * data used by export_to_xml (among other things possibly
+     * @return array
+     */
+    public function extra_question_fields() {
+        return array('qtype_sassessment_options', 'show_transcript', 'save_stud_audio', 'show_analysis');
+    }
+
     public function move_files($questionid, $oldcontextid, $newcontextid) {
         parent::move_files($questionid, $oldcontextid, $newcontextid);
         $this->move_files_in_answers($questionid, $oldcontextid, $newcontextid);
@@ -124,4 +133,60 @@ class qtype_sassessment extends question_type {
             'points' => get_string('points_score', 'qtype_sassessment'),
         );
     }
+
+
+    /**
+     * Create a question from reading in a file in Moodle xml format
+     *
+     * @param array $data
+     * @param stdClass $question (might be an array)
+     * @param qformat_xml $format
+     * @param stdClass $extra
+     * @return boolean
+     */
+    public function import_from_xml($data, $question, qformat_xml $format, $extra = null) {
+        if (!isset($data['@']['type']) || $data['@']['type'] != 'sassessment') {
+            return false;
+        }
+        $question = parent::import_from_xml($data, $question, $format, null);
+        $format->import_combined_feedback($question, $data, true);
+        $format->import_hints($question, $data, true, false, $format->get_format($question->questiontextformat));
+        $question->isimport = true;
+        $question->itemsettings = [];
+        if (isset($data['#']['sassessmentsetting'])) {
+            foreach ($data['#']['sassessmentsetting'] as $key => $setxml) {
+                $question->itemsettings[$key]['show_transcript'] = $format->getpath($setxml, array('#', 'show_transcript', 0, '#'), 0);
+                $question->itemsettings[$key]['save_stud_audio'] = $format->getpath($setxml, array('#', 'save_stud_audio', 0, '#'), 0);
+                $question->itemsettings[$key]['show_analysis'] = $format->getpath($setxml, array('#', 'show_analysis', 0, '#'), 0);
+            }
+        }
+        return $question;
+
+    }
+
+    /**
+     * Export question to the Moodle XML format
+     *
+     * @param object $question
+     * @param qformat_xml $format
+     * @param object $extra
+     * @return string
+     */
+    public function export_to_xml($question, qformat_xml $format, $extra = null) {
+        global $CFG;
+        $pluginmanager = core_plugin_manager::instance();
+        $question->options->itemsettings = json_decode($question->options->itemsettings);
+
+        $output = parent::export_to_xml($question, $format);
+        foreach ($question->options->itemsettings as $set) {
+            $output .= "      <sassessmentsetting>\n";
+            $output .= '        <show_transcript>' . $set->show_transcript . "</show_transcript>\n";
+            $output .= '        <save_stud_audio>' . $set->save_stud_audio . "</save_stud_audio>\n";
+            $output .= '        <show_analysis>' . $set->show_analysis . "</show_analysis>\n";
+            $output .= "     </sassessmentsetting>\n";
+        }
+        $output .= $format->write_combined_feedback($question->options, $question->id, $question->contextid);
+        return $output;
+    }
+
 }

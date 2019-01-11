@@ -77,10 +77,29 @@ class qtype_sassessment_renderer extends qtype_renderer {
           $input = html_writer::div($currentanswer, $answerDiv, array("id" => $answerDiv));
           $input .= html_writer::empty_tag('input', $inputattributes);
 
+
+          if ($question->show_transcript == 1) {
+              $answerDisplayStatus = "none";
+          } else {
+              $answerDisplayStatus = "display:none";
+          }
+
+          if ($question->show_analysis == 1) {
+              $gradeDisplayStatus = "none";
+          } else {
+              $gradeDisplayStatus = "display:none";
+          }
+
+          if ($question->save_stud_audio == 1) {
+              $audioDisplayStatus = "none";
+          } else {
+              $audioDisplayStatus = "display:none";
+          }
+
           $result .= html_writer::start_tag('div', array('class' => 'ablock form-inline'));
           $result .= html_writer::tag('label', get_string('answer', 'qtype_sassessment',
                   html_writer::tag('span', $input, array('class' => 'answer'))),
-                  array('for' => $inputattributes['id']));
+                  array('for' => $inputattributes['id'], 'style'=>$answerDisplayStatus));
           $result .= html_writer::end_tag('div');
         }
 
@@ -118,7 +137,7 @@ class qtype_sassessment_renderer extends qtype_renderer {
                     'name' => $qa->get_qt_field_name('attachments'), 'value' => $itemid));
             $result .= html_writer::end_tag('div');
 
-            $result .= html_writer::start_tag('div', array('class' => 'ablock'));
+            $result .= html_writer::start_tag('div', array('class' => 'ablock', 'style' => $audioDisplayStatus));
             $result .= html_writer::empty_tag('audio', array('id' => $audioname, 'name' => $audioname, 'controls' => ''));
             $result .= html_writer::end_tag('div');
 
@@ -157,7 +176,7 @@ class qtype_sassessment_renderer extends qtype_renderer {
             $result .= html_writer::start_tag('div', array('class' => 'ablock form-inline'));
             $result .= html_writer::tag('label', get_string('grade', 'qtype_sassessment',
                 html_writer::tag('span', $input, array('class' => 'answer'))),
-                array('for' => $inputattributes['id']));
+                array('for' => $inputattributes['id'], 'style'=>$gradeDisplayStatus));
             $result .= html_writer::end_tag('div');
         }
 

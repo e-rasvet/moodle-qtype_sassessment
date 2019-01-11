@@ -40,11 +40,11 @@ class qtype_sassessment_edit_form extends question_edit_form {
     protected function definition_inner($mform) {
         $qtype = question_bank::get_qtype('sassessment');
 
-        // $mform->addElement('checkbox', 'show_transcript', get_string('show_transcript', 'qtype_sassessment'));
-        // $mform->addElement('checkbox', 'save_stud_audio', get_string('save_stud_audio', 'qtype_sassessment'));
-        // $mform->addElement('checkbox', 'show_analysis', get_string('show_analysis', 'qtype_sassessment'));
+        $mform->addElement('checkbox', 'show_transcript', get_string('show_transcript', 'qtype_sassessment'));
+        $mform->addElement('checkbox', 'save_stud_audio', get_string('save_stud_audio', 'qtype_sassessment'));
+        $mform->addElement('checkbox', 'show_analysis', get_string('show_analysis', 'qtype_sassessment'));
         //
-        // $mform->addElement('select', 'fb_type',
+        //$mform->addElement('select', 'fb_tyfb_typepe',
         //         get_string('fb_type', 'qtype_sassessment'), $qtype->feedback_types());
 
         $mform->addElement('hidden', 'fb_type', 0);
