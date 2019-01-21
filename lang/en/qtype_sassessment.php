@@ -45,5 +45,10 @@ $string['points_score'] = 'Points';
 $string['err_notenoughquestions'] = 'Not enough questions';
 
 $string['answer'] = 'Answer: {$a}';
+$string['targetresponse'] = 'Target response: {$a}';
 $string['grade'] = 'Grade: {$a}';
+$string['score'] = 'Score: {$a}';
 $string['recordAudioIniosapp'] = 'Record Audio for iOS in app';
+$string['targetresponsee'] = 'Target response';
+$string['yourresponse'] = 'Your response';
+$string['scoree'] = 'Score';

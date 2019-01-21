@@ -10,6 +10,14 @@
           <option name="port" value="22" />
         </fileTransfer>
       </webServer>
+      <webServer id="0692a6e7-b1eb-4cce-8782-234b27484c4f" name="fltrk.biz" url="http://fltrc.biz">
+        <fileTransfer host="fltrc.biz" port="2222" privateKey="$USER_HOME$/.ssh/id_rsaNew" accessType="SFTP" keyPair="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="2222" />
+        </fileTransfer>
+      </webServer>
     </option>
   </component>
 </project>
