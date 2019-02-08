@@ -41,6 +41,8 @@ class qtype_sassessment_renderer extends qtype_renderer {
               question_display_options $options) {
         global $USER, $CFG;
 
+        //$PAGE->requires->jquery();
+
         $question = $qa->get_question();
 
         $questiontext = $question->format_questiontext($qa);
@@ -251,8 +253,22 @@ setInterval(function(){
                * IOS app integration code END
                */
 
-
         }
+
+
+        $result .= html_writer::script('
+    var video = document.getElementsByTagName(\'video\');
+    video = video[0];
+    setInterval(function(){
+    //https://iandevlin.com/blog/2015/02/javascript/dynamically-adding-text-tracks-to-html5-video/
+    
+        $(\'.goToVideo\').click(function() {
+            video.currentTime = $(this).attr("data-value");
+            video.play();
+        });
+  
+    }, 1000);
+            ');
 
 
         return $result;
