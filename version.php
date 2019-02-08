@@ -27,7 +27,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'qtype_sassessment';
-$plugin->version   = 2018080500;
+$plugin->version   = 2019020800;
 
 $plugin->requires  = 2018051700;
 
