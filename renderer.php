@@ -41,8 +41,6 @@ class qtype_sassessment_renderer extends qtype_renderer {
               question_display_options $options) {
         global $USER, $CFG;
 
-        //$PAGE->requires->jquery();
-
         $question = $qa->get_question();
 
         $questiontext = $question->format_questiontext($qa);
@@ -192,83 +190,6 @@ class qtype_sassessment_renderer extends qtype_renderer {
                   $result .= html_writer::end_tag('div');
               }
         }
-
-
-        /*
-         * IOS app integration code START
-         */
-        if (function_exists("voiceshadow_is_ios"))
-        if (voiceshadow_is_ios() && !$options->readonly && file_exists($CFG->dirroot.'/mod/voiceshadow/ajax-apprecord.php')) {
-              $time = time();
-              $result .= html_writer::start_tag("a", array("href" => 'voiceshadow://?link='.$CFG->wwwroot.'&id='.$options->context->id.'&uid='.$USER->id.'&time='.$time.'&fid='.$question->id.'&var=0&audioBtn=1&sstBtn=1&type=voiceshadow&mod=voiceshadow', "id" => "id_recoring_link",  //
-                  "onclick" => 'formsubmit(this.href)'));
-
-              $result .= get_string('recordAudioIniosapp', 'qtype_sassessment');
-              $result .= html_writer::end_tag('a');
-
-
-              $result .= html_writer::script('
-
-setInterval(function(){
-    $.get( "'.$CFG->wwwroot.'/mod/voiceshadow/ajax-apprecord.php", { id: '.$question->id.', inst: '.$options->context->id.', uid: '.$USER->id.' }, function(json){
-        var j = JSON.parse(json);
-        var t = +new Date();
-
-        if (j.status == "success") {
-
-              $(":text").each(function() {
-                  if ($(this).attr("id") == "'.$answername.'") {
-                        $(this).val(j.text);
-                  }
-              });
-              
-              $("audio").each(function() {
-                  if ($(this).attr("id") == "'.$audioname.'") {
-                        $(this).attr("src", "'.$CFG->wwwroot.'/mod/voiceshadow/file.php?file="+j.fileid);
-                  }
-              });
-              
-              $("input").each(function() {
-                  if ($(this).attr("name") == "'.$qa->get_qt_field_name('attachments').'") {
-                        $(this).val(j.itemid);
-                  }
-              });
-              
-              $.post("'.$CFG->wwwroot.'/question/type/sassessment/ajax-score.php", { qid: '.$question->id.', ans: j.text },
-                 function (data) {
-                    $("input").each(function() {
-                         if ($(this).attr("name") == "'.$gradename.'") {
-                            $(this).val(JSON.parse(data).gradePercent);
-                         }
-                    });
-                 });
-
-              $.get( "'.$CFG->wwwroot.'/mod/voiceshadow/ajax-apprecord.php", { a: "delete", id: '.$question->id.', inst: '.$options->context->id.', uid: '.$USER->id.' });
-        }
-    } );
-}, 1000);
-
-                  ');
-              /*
-               * IOS app integration code END
-               */
-
-        }
-
-
-        $result .= html_writer::script('
-    var video = document.getElementsByTagName(\'video\');
-    video = video[0];
-    setInterval(function(){
-    //https://iandevlin.com/blog/2015/02/javascript/dynamically-adding-text-tracks-to-html5-video/
-    
-        $(\'.goToVideo\').click(function() {
-            video.currentTime = $(this).attr("data-value");
-            video.play();
-        });
-  
-    }, 1000);
-            ');
 
 
         return $result;
