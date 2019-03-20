@@ -19,7 +19,7 @@
  *
  * @since      2.0
  * @package    qtype_sassessment
- * @copyright  2018 Kochi-Tech.ac.jp
+ * @copyright  2018 Igor Nikulin, Kochi-Tech.ac.jp
 
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

@@ -19,7 +19,7 @@
  *
  * @package    qtype
  * @subpackage sassessment
- * @copyright  2018 Kochi-Tech.ac.jp
+ * @copyright  2018 Igor Nikulin, Kochi-Tech.ac.jp
 
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -32,7 +32,7 @@ require_once($CFG->dirroot . '/question/type/questionbase.php');
 /**
  * Represents a sassessment question.
  *
- * @copyright  2018 Kochi-Tech.ac.jp
+ * @copyright  2018 Igor Nikulin, Kochi-Tech.ac.jp
 
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
